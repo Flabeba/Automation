@@ -1,23 +1,20 @@
 Локатор логотипа (html-елемент, содержащий в себе значок и слово "авиасейлс"):
-<<<<<<< HEAD
-
-=======
-<a class="s__IfjHnfURFBTIihipyW2z" href="/">
->>>>>>> cb81e50 (Clean)
+$$('a.s__IfjHnfURFBTIihipyW2z')
 
 Локатор поля Откуда:
-
+$$('input[id="avia_form_origin-input"]')
 
 Локатор поля Куда:
-
+$$('input[id="avia_form_destination-input"]')
 
 Локатор поля Когда:
+$$('button[data-test-id="start-date-value"]')
 
-
-Локатор поля Обратно:
-
+Локатор поля Обратно
+$$('button[data-test-id="end-date-field"]')
 
 Локатор чек-бокса "Открыть Ostrovok.ru в новой вкладке":
-
+$$('span.s__BGUqp9s2kxbNEnDjdIYc')
 
 Локатор кнопки Найти билеты:
+$$('button.s__pYAhaCkOP9mPTxKVg5Qi.s__cQ6neS4ccCunOu9Ydn0k.s__tkvB9amX28GXeWxPcrad.s__eEClvAD7BnPrQbwBW5zC.s__p0epgEYgBbKyjc8MfJPw.s__VtKkhjd_g3s0MVyvRx1g')
