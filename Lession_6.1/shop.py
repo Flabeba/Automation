@@ -38,9 +38,9 @@ driver.find_element(By.NAME, form_delivery[3]).click()
 
 total_sum = driver.find_element(By.CLASS_NAME, 'summary_total_label').text
 
+driver.quit()
+
 if total_sum == "Total: $58.29":
     print(total_sum)
 else:
      print("Неверная сумма полного заказа")
-
-driver.quit()
