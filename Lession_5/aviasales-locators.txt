@@ -17,4 +17,4 @@ $$('button[data-test-id="end-date-field"]')
 $$('span.s__BGUqp9s2kxbNEnDjdIYc')
 
 Локатор кнопки Найти билеты:
-$$('button.s__pYAhaCkOP9mPTxKVg5Qi.s__cQ6neS4ccCunOu9Ydn0k.s__tkvB9amX28GXeWxPcrad.s__eEClvAD7BnPrQbwBW5zC.s__p0epgEYgBbKyjc8MfJPw.s__VtKkhjd_g3s0MVyvRx1g')
+$$('button[data-test-id="form-submit"]')

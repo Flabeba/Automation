@@ -1,14 +1,14 @@
 Локатор кнопки Войти:
-$$('div.a5h.n8d')
+$$('div[data-widget="profileMenuAnonymous"]')
 
 Локатор кнопки Заказы:
 $$('a[href="/my/orderlist"]')
 
 Локатор ссылки OZON Job (в футере):
-$$('img.fd3.b904-a')
+$$('img[alt="Ozon Job"]')
 
 Локатор выбора валюты (верхний левый угол страницы):
-$$('button.d6m.ga13-a.undefined')
+$$('button[data-widget="selectedCurrency"]')
 
 Локатор выпадашки Везде (в поисковой строке):
-$$('span.x8z.tsBtsBody400SmallodyM')
+$$('span[title="Везде"]')
