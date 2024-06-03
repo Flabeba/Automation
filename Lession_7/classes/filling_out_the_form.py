@@ -16,12 +16,13 @@ class Fields:
             return self.driver.find_element(By.TAG_NAME, 'button').click()
 
     def checking_field(self, inputs):
-        success_len = self.driver.find_elements(By.CSS_SELECTOR, 'div.alert-success')
-        if len(success_len) == len(inputs):
-            print("Заполнено", len(success_len), "полей")
+        
+        for success_alert in range(0, len(inputs)):
+            success_element = self.driver.find_element(By.ID, inputs[success_alert]).get_attribute('class')
+            assert 'alert-success' in success_element
 
         if self.driver.find_element(By.CSS_SELECTOR, '#zip-code.alert-danger'):
             print("Zip-code не заполнен")
-    
+
     def close(self, driver):
         driver.quit()
