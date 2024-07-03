@@ -1,5 +1,5 @@
-from EmployeeApi import EmployeeApi
-from EmployeeSql import EmployeeSql
+from EmployeesApi import EmployeeApi
+from EmployeesSql import EmployeeSql
 
 api = EmployeeApi("https://x-clients-be.onrender.com")
 db = EmployeeSql("postgres://x_clients_db_3fmx_user:mzoTw2Vp4Ox4NQH0XKN3KumdyAYE31uq@dpg-cour99g21fec73bsgvug-a.oregon-postgres.render.com/x_clients_db_3fmx")
@@ -12,7 +12,7 @@ def test_get_employees():
     company_id = response["id"]
 
     # Step 2: Get employees from company via API
-    api_employees = api.get_employee(company_id)
+    api_employees = api.get_employees(company_id)
 
     # Step 3: Get employees from company via Database
     db_employees = db.get_employees(company_id)
@@ -28,7 +28,7 @@ def test_add_employee():
     company_id = response["id"]
 
     # Step 2: Get initial employee count via API
-    initial_employees = api.get_employee(company_id)
+    initial_employees = api.get_employees(company_id)
     initial_count = len(initial_employees)
 
     # Step 3: Create an employee
@@ -69,11 +69,12 @@ def test_get_single_employee():
         "email": "Kirkor666@live.com",
         "phone": "+31612333218"
     }
+
     db.create(**employee_details)
     employee_id = db.get_max_id()
 
     # Step 2: Retrieve employee by ID via API
-    employee = api.employee_id(employee_id)
+    employee = api.get_employee_by_id(employee_id)
 
     # Step 3: Assert employee details
     assert all(employee[key] == value for key, value in employee_details.items()), "Employee details should match"
@@ -101,7 +102,7 @@ def test_edit_employee():
 
     # Step 2: Update employee email
     new_email = "Pugachiha777@live.com"
-    updated_employee = api.employee_change(employee_id, new_email=new_email)
+    updated_employee = api.update_employee(employee_id, new_email=new_email)
 
     # Step 3: Assert changes
     assert updated_employee["id"] == employee_id, "Employee ID should match"
