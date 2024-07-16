@@ -1,3 +1,4 @@
+import allure
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.sql import text
 
@@ -34,21 +35,24 @@ class EmplTable:
     }
 
     def __init__(self, connection_string):
-        self.__db = create_engine(connection_string, encoding='utf-8', future=True)
+        self.__db = create_engine(connection_string, future=True)
         self.__metadata = MetaData()
         self.__table = Table('employee', self.__metadata, autoload_with=self.__db)
 
+    @allure.step("Создаём таблицу")
     def create_table(self):
         with self.__db.connect() as conn:
             conn.execute(self.__scripts["create"])
             conn.commit()
 
-    def get_employees(self):
+    @allure.step("Получение списка сотрудников")
+    def get_employees(self) -> dict:
         with self.__db.connect() as conn:
             result = conn.execute(self.__scripts["select"])
             return result.fetchall()
 
-    def insert_employee(self, first_name, last_name, phone, company_id):
+    @allure.step("Добавление сотрудника")
+    def insert_employee(self, first_name, last_name, phone, company_id) -> dict:
         with self.__db.connect() as conn:
             result = conn.execute(self.__scripts["insert"],
                                   {"first_name": first_name,
@@ -58,7 +62,8 @@ class EmplTable:
             conn.commit()
             return result
 
-    def update_employee(self, employee_id, first_name, last_name, middle_name, phone, email, avatar_url):
+    @allure.step("Обновление информации о сотруднике")
+    def update_employee(self, employee_id, first_name, last_name, middle_name, phone, email, avatar_url) -> dict:
         with self.__db.connect() as conn:
             result = conn.execute(self.__scripts["update"],
                                   {"employee_id": employee_id,
@@ -71,18 +76,20 @@ class EmplTable:
             conn.commit()
             return result
 
-    def get_employee_by_id(self, employee_id):
+    def get_employee_by_id(self, employee_id) -> dict:
         with self.__db.connect() as conn:
             result = conn.execute(self.__scripts["get_employee_by_id"], {"employee_id": employee_id})
             return result.fetchone()
 
-    def delete_employee(self, employee_id):
+    @allure.step("Удаление сотрудника")
+    def delete_employee(self, employee_id) -> dict:
         with self.__db.connect() as conn:
             result = conn.execute(self.__scripts["delete"], {"employee_id": employee_id})
             conn.commit()
             return result
 
-    def delete_all_employees(self):
+    @allure.step("Удаление всех сотрудников")
+    def delete_all_employees(self) -> dict:
         with self.__db.connect() as conn:
             result = conn.execute(self.__scripts["delete_all"])
             conn.commit()

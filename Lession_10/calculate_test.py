@@ -1,18 +1,30 @@
+﻿import allure
 from selenium import webdriver
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from webdriver_manager.firefox import GeckoDriverManager
-from classes.calculate import Calculate
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
-var_value = ["7", "+", "8", "=", "45", "15"]
+from classes.page_calculator import Calculator
 
-def test_calculate(var_value):
+@allure.title("Калькулятор")
+@allure.description("Проверка работы калькулятора")
+@allure.feature("CREATE")
+@allure.severity("blocker")
+def test_calculator():
+    with allure.step("Запуск браузера Chrome"):
+        driver = webdriver.Chrome(
+            service=ChromeService(ChromeDriverManager().install()))
 
-    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
-    waiting_calc = Calculate(driver)
-    waiting_calc.get("https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html")
-    waiting_calc.waiting_time(driver, var_value)
-    waiting_calc.calc(driver, var_value)
-    waiting_calc.waiting(driver, var_value)
-    waiting_calc.close(driver)
+    with allure.step("Загрузка страницы калькулятора"):
+        calculator = Calculator(driver)
 
-test_calculate(var_value)
+    with allure.step("Выставление задержки выполнения действия"):    
+        calculator.delay()
+
+    with allure.step("Выполнени выражения"):    
+        calculator.sum_nums()
+
+    with allure.step("Сравненение значения выражения с числом 15"):    
+        assert calculator.result() == '15'
+        
+    with allure.step("Закрытие браузера Chrome"):    
+        calculator.close_driver()

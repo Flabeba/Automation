@@ -1,3 +1,4 @@
+import allure
 from classes.EmployeeApi import Company
 from classes.EmployeeSQL import EmplTable
 
@@ -5,36 +6,36 @@ api = Company("https://x-clients-be.onrender.com")
 db = EmplTable("postgresql+psycopg2://x_clients_db_3fmx_user:mzoTw2Vp4Ox4NQH0XKN3KumdyAYE31uq@dpg-cour99g21fec73bsgvug-a.oregon-postgres.render.com/x_clients_db_3fmx")
 
 def setup_module(module):
-    db.create_table()
-    db.delete_all_employees()  # Очищаем таблицу сотрудников перед тестами
+    with allure.step("Создаём таблицу"):
+        db.create_table()
+    with allure.step("Очищаем таблицу"):
+        db.delete_all_employees()  # Очищаем таблицу сотрудников перед тестами
 
 def teardown_module(module):
     db.dispose()  # Используем метод dispose()
 
+@allure.title("Создание компании и клиента")
 def test_create_and_get_employee():
     name = "SkyPro"
     descr = "testing"
     company = api.create_company(name, descr)
     new_company_id = company["id"]
-
     len_before = len(db.get_employees())
 
     db.insert_employee("Mike", "Sorreto", "+123456789", new_company_id)
-
     len_after = len(db.get_employees())
-
     assert len_after - len_before == 1
-
     employee_list = api.get_list_employee(new_company_id)
     assert any(employee["firstName"] == "Mike" and employee["lastName"] == "Sorreto" for employee in employee_list)
 
+@allure.title("Обновление данных о компании")
 def test_update_employee():
     employees = db.get_employees()
     assert len(employees) > 0
 
     employee_id = employees[0]["id"]
     db.update_employee(employee_id, "Jane", "Doe", "Middle", "+987654321", "jane.doe@example.com", "http://example.com")
-
+    
     updated_employee = db.get_employee_by_id(employee_id)  # Получаем обновленного сотрудника напрямую
     assert updated_employee["first_name"] == "Jane"
     assert updated_employee["last_name"] == "Doe"
@@ -43,6 +44,7 @@ def test_update_employee():
     assert updated_employee["email"] == "jane.doe@example.com"
     assert updated_employee["avatar_url"] == "http://example.com"
 
+@allure.title("Удаление компании")
 def test_delete_all_employees():
     employees = db.get_employees()
 
